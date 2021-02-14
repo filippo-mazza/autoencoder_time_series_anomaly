@@ -7,7 +7,7 @@ inspired by the keras official documentation
 import numpy as np
 import pandas as pd
 from tensorflow import keras
-from tensorflow.keras import layers
+
 from matplotlib import pyplot as plt
 
 DATAFILE = '/datasets/time_series_testing.csv'
@@ -34,27 +34,8 @@ x_train = _sequences(df.values, TIME_STEPS)
 
 
 ## Get the model
+import models
 optimizer = keras.optimizers.Adam(learning_rate=0.001)
-model = keras.Sequential(
-    [
-        layers.Input(shape=(x_train.shape[1], x_train.shape[2])),
-        layers.Conv1D(
-            filters=64, kernel_size=5, padding="same", strides=2, activation="relu"
-        ),
-        layers.Dropout(rate=0.2),
-        layers.Conv1D(
-            filters=32, kernel_size=5, padding="same", strides=2, activation="relu"
-        ),
-        layers.Conv1DTranspose(
-            filters=16, kernel_size=5, padding="same", strides=2, activation="relu"
-        ),
-        layers.Dropout(rate=0.1),
-        layers.Conv1DTranspose(
-            filters=8, kernel_size=5, padding="same", strides=2, activation="relu"
-        ),
-        layers.Conv1DTranspose(filters=1, kernel_size=5, padding="same"),
-    ]
-)
 model.compile(optimizer=optimizer, loss="mse")
 model.summary()
 
